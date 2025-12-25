@@ -1,6 +1,9 @@
 #include <memory>
 #include <vector>
 #include <array>
+#include <string_view>
+#include <string>
+#include <map>
 
 #pragma warning(push)
 #pragma warning(disable:4189) // unused variables
@@ -51,6 +54,31 @@ int main() {
 
 	Widget widget;
 	Widget2 widget2(1'000'000);
+
+	// ok so we'll be defaulting to brace initialization from now on
+
+	// string and string view also allow for some cool methods
+
+	std::string_view sv{ "this is sv" }; // apparently just a fat ptr
+	std::wstring_view wsv{ L"what is wide" }; // for wide characters
+
+	std::string s{ "hello " };
+	s.append(sv);
+
+	std::wstring ws{ L"but " };
+	ws.append(wsv);
+
+	std::vector<std::string> apples{}; // also good the know that primitives aint have default constructors unlike these; but yes let's still use braces
+	apples.push_back("granny smith");
+
+	std::map<std::string, std::string> apple_color{}; // i dont think this is a hashmap, more like an rbtree or smth
+	apple_color["Granny Smith"] = "Green"; // overwrites if already exists
+	auto result1 = apple_color.insert({ "Gala","Red" }); // doesnt overwrite; also apparently returns iterator and bool; NOTE: idk what a "gala" even is just a vague memory
+	auto result2 = apple_color.emplace("Fuji", "Red"); // constructs value in place; apparently if u already have in object do insert, otherwise if literal emplace
+
+	// there are also unordered map, which is a hashmap, set, multimap, and multiset
+
+	// as ive been told, when talking to c style apis, use stl containers, not c arrays
 }
 
 #pragma warning(pop)
