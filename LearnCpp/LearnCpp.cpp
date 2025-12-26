@@ -4,6 +4,9 @@
 #include <string_view>
 #include <string>
 #include <map>
+#include <algorithm>
+#include <iostream>
+#include <ranges>
 
 #pragma warning(push)
 #pragma warning(disable:4189) // unused variables
@@ -79,6 +82,24 @@ int main() {
 	// there are also unordered map, which is a hashmap, set, multimap, and multiset
 
 	// as ive been told, when talking to c style apis, use stl containers, not c arrays
+
+	std::for_each(apple_color.begin(), apple_color.end(), [](auto& pair) { // takes a begin and end
+		auto& [k, v] = pair;
+		std::cerr << k << v << '\n';
+		});
+
+	//for (std::vector<std::string>::iterator it = apples.begin(), int i = 0; it != apples.end(); ++i, ++it) {
+	//}
+
+	std::map<int, std::string> not_array{};
+	for (auto [i, it] = std::pair{ 0,apples.begin() }; it != apples.end(); ++i, ++it) {
+		not_array[i] = *it;
+	} // idk men just feels weird i should just use ranges at this point, maybe i get to hack better
+
+	//std::transform(apples.begin(), apples.end(), );
+
+	auto it = std::views::iota(0, static_cast<int>(apples.size())) | std::views::transform([&](int i) {return std::pair{ static_cast<size_t>(i), apples[static_cast<size_t>(i)] }; });
+	std::map<size_t, std::string> not_array2{ it.begin(),it.end() }; // ranges
 }
 
 #pragma warning(pop)
