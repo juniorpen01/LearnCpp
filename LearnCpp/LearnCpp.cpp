@@ -36,6 +36,10 @@ public:
 	} // data(size) means allocating all zeroed out of that size, not preallocation
 };
 
+void lambda(const int& foo) {
+	std::cout << foo << '\n';
+};
+
 
 int main() {
 	// resources and smart ptrs
@@ -100,6 +104,12 @@ int main() {
 
 	auto it = std::views::iota(0, static_cast<int>(apples.size())) | std::views::transform([&](int i) {return std::pair{ static_cast<size_t>(i), apples[static_cast<size_t>(i)] }; });
 	std::map<size_t, std::string> not_array2{ it.begin(),it.end() }; // ranges
+
+	int foo = 1;
+	int& foo_ref = foo;
+
+
+	lambda(foo);
 }
 
 #pragma warning(pop)
